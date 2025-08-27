@@ -21,6 +21,11 @@
           <td>
             <a href="{% url 'courses:lesson_detail' pk=lesson.pk %}">
               {{ lesson.title }}
+              {% if lesson.total_duration_text %}
+                <span class="ms-2 small text-muted">
+                  <i class="bi bi-clock"></i> {{ lesson.total_duration_text }}
+                </span>
+              {% endif %}
             </a>
           </td>
           <td>

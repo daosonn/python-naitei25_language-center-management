@@ -1,19 +1,129 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}Trang chủ — {{ C.SITE.NAME }}{% endblock %}
 {% block content %}
 
-<!-- Hero -->
-<section class="py-5">
-  <div class="row align-items-center">
-    <div class="col-lg-7">
-      <h1 class="display-5 fw-bold">{{ C.HOMEPAGE.HERO_TITLE }}</h1>
-      <p class="lead text-muted">{{ C.HOMEPAGE.HERO_SUBTITLE }}</p>
-      <a class="btn btn-teal btn-lg" href="{% url C.HOMEPAGE.HERO_CTA_URL_NAME %}">
-        {{ C.HOMEPAGE.HERO_CTA_TEXT }}
-      </a>
+<!-- Hero JKokoro -->
+<section class="py-5 position-relative" style="background: linear-gradient(120deg, #e9edfb 0%, #6c72ff 100%); overflow: hidden;">
+  <div style="position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(255,255,255,0.72);z-index:1;"></div>
+  <div class="row align-items-center flex-row-reverse position-relative" style="z-index:2;">
+    <div class="col-lg-5 d-flex justify-content-end align-items-center">
+      <img class="img-fluid" src="{% static 'img/trangchu1.png' %}" alt="JKokoro homepage" style="max-height: 320px;">
     </div>
-    <div class="col-lg-5 text-center">
-      <img class="img-fluid rounded-4 shadow" src="{% static 'img/placeholders/hero.jpg' %}" alt="hero">
+    <div class="col-lg-7 ps-lg-5">
+      <h1 class="display-4 fw-bold mb-3 text-dark">Học tiếng Nhật online cùng <span style="color:#6c72ff">JKokoro</span></h1>
+      <p class="fs-5 mb-4 text-dark fw-semibold">Bạn tự học tiếng Nhật nhưng không thành công? Bạn không có thời gian đến trung tâm để học? Tham gia các khoá học của JKokoro với mô hình học online mọi lúc mọi nơi dành cho mọi lứa tuổi mọi trình độ!</p>
+      <a class="btn btn-primary btn-lg px-4" href="/courses/">Tìm hiểu</a>
+    </div>
+  </div>
+  <svg viewBox="0 0 1440 320" style="position:absolute;bottom:0;left:0;width:100%;z-index:1;"><path fill="#6c72ff" fill-opacity="1" d="M0,224L48,197.3C96,171,192,117,288,117.3C384,117,480,171,576,197.3C672,224,768,224,864,197.3C960,171,1056,117,1152,122.7C1248,128,1344,192,1392,224L1440,256L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>
+</section>
+<!-- Lợi ích học online tại JKokoro -->
+<section class="py-5 bg-white">
+  <div class="container">
+    <h2 class="text-center fw-bold mb-5" style="font-size:2.5rem;">Tham gia khoá học tiếng Nhật online tại<br>JKokoro ngay hôm nay</h2>
+    <div class="row g-4 justify-content-center">
+      <div class="col-12 col-md-6 col-lg-3">
+        <div class="bg-light rounded-4 shadow-sm p-4 h-100 text-center">
+          <div class="mb-3"><i class="bi bi-journal-bookmark fs-1 text-primary bg-white rounded-circle p-3" style="background:#6c72ff22;"></i></div>
+          <h5 class="fw-semibold mb-2">Tìm hiểu những kiến thức mới nhất</h5>
+          <p class="text-muted mb-0">Học các kỹ năng hàng đầu có thể mang lại kết quả phi thường trong sự nghiệp.</p>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-3">
+        <div class="bg-light rounded-4 shadow-sm p-4 h-100 text-center">
+          <div class="mb-3"><i class="bi bi-send fs-1 text-primary bg-white rounded-circle p-3" style="background:#6c72ff22;"></i></div>
+          <h5 class="fw-semibold mb-2">Học mọi lúc mọi nơi thật dễ dàng</h5>
+          <p class="text-muted mb-0">Mọi người đều thích học theo tốc độ riêng và điều đó mang lại kết quả tuyệt vời.</p>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-3">
+        <div class="bg-light rounded-4 shadow-sm p-4 h-100 text-center">
+          <div class="mb-3"><i class="bi bi-lightbulb fs-1 text-primary bg-white rounded-circle p-3" style="background:#6c72ff22;"></i></div>
+          <h5 class="fw-semibold mb-2">Trao đổi với bạn bè cùng học</h5>
+          <p class="text-muted mb-0">Chúng tôi rất vui được cung cấp cho bạn các lựa chọn để bạn thích học hỏi từ mọi nơi trên thế giới.</p>
+        </div>
+      </div>
+      <div class="col-12 col-md-6 col-lg-3">
+        <div class="bg-light rounded-4 shadow-sm p-4 h-100 text-center">
+          <div class="mb-3"><i class="bi bi-mortarboard fs-1 text-primary bg-white rounded-circle p-3" style="background:#6c72ff22;"></i></div>
+          <h5 class="fw-semibold mb-2">Giáo viên hỗ trợ bạn khi có thắc mắc</h5>
+          <p class="text-muted mb-0">Học các kỹ năng hàng đầu có thể mang lại kết quả phi thường trong sự nghiệp.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Học tiếng Nhật online cùng JKokoro - section ảnh trái -->
+<section class="py-5" style="background: #e9edfb;">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6 mb-4 mb-lg-0 text-center">
+  <img src="{% static 'img/trangchu2.png' %}" alt="Học tiếng Nhật online JKokoro" class="img-fluid rounded-4 shadow" style="max-width: 150%; width: 80%;">
+      </div>
+      <div class="col-lg-6">
+        <div class="mb-2 text-primary fw-semibold">Học tiếng Nhật Online</div>
+        <h2 class="fw-bold mb-3" style="font-size:2rem;">Nâng cao trình độ tiếng Nhật của bạn mọi lúc, mọi nơi chỉ với 1 chiếc máy tính hoặc điện thoại. Thật đơn giản!</h2>
+        <p class="mb-4 text-dark">Chúng tôi hiểu rõ hơn rằng việc học trực tuyến có thể tạo ra một thay đổi đáng kể để tiếp cận người học từ khắp mọi nơi! Đưa ra các lựa chọn để học tốt hơn luôn có thể mang lại kết quả tốt nhất!</p>
+        <div class="row mb-4 g-2">
+          <div class="col-6">
+            <div class="d-flex align-items-center gap-2 mb-2"><i class="bi bi-house-door text-primary fs-4"></i> Học mọi lúc mọi nơi</div>
+            <div class="d-flex align-items-center gap-2 mb-2"><i class="bi bi-chat-dots text-primary fs-4"></i> Ôn luyện từ xa</div>
+          </div>
+          <div class="col-6">
+            <div class="d-flex align-items-center gap-2 mb-2"><i class="bi bi-emoji-smile text-primary fs-4"></i> Đơn giản, dễ sử dụng</div>
+            <div class="d-flex align-items-center gap-2 mb-2"><i class="bi bi-heart text-primary fs-4"></i> Cộng đồng học lớn</div>
+          </div>
+        </div>
+        <a class="btn btn-primary btn-lg px-4" href="/courses/">Xem tất cả khoá học</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Những khoá học nổi bật -->
+<section class="py-5">
+  <div class="container">
+    <h2 class="text-center fw-bold mb-3" style="font-size:2.2rem;">Những khoá học nổi bật</h2>
+    <p class="text-center text-muted mb-5">Khám phá tất cả các khóa học của chúng tôi và chọn những khóa học phù hợp của bạn để đăng ký và bắt đầu học với chúng tôi!</p>
+    <div class="row g-4 mb-4">
+      {% for course in courses|slice:":4" %}
+        <div class="col-12 col-md-6 col-lg-3">
+          <div class="card h-100 shadow-sm">
+            {% if course.cover %}
+              <img src="{{ course.cover.url }}" class="card-img-top" alt="{{ course.name }}">
+            {% endif %}
+            <div class="card-body d-flex flex-column">
+              <h5 class="card-title fw-semibold">{{ course.name }}</h5>
+              <p class="card-text text-muted small flex-grow-1">{{ course.short_desc|default:course.description|truncatewords:20 }}</p>
+  <a href="{% url 'courses:detail' course.slug %}" class="btn btn-outline-primary mt-2">Xem chi tiết</a>
+            </div>
+          </div>
+        </div>
+      {% empty %}
+        <div class="col-12 text-center text-muted">Chưa có khoá học nào.</div>
+      {% endfor %}
+    </div>
+    <div class="text-center">
+      <a href="/courses/" class="btn btn-primary btn-lg px-5">Xem tất cả</a>
+    </div>
+  </div>
+</section>
+
+<!-- Học tiếng Nhật từ xa - Ảnh bên trái, nền xanh pastel -->
+<section class="py-5" style="background: #d6eaff;">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6 mb-4 mb-lg-0 text-center">
+        <img src="{% static 'img/trangchu3.png' %}" alt="Học tiếng Nhật từ xa JKokoro" class="img-fluid rounded-4 shadow" style="max-width: 100%; width: 80%;">
+      </div>
+      <div class="col-lg-6">
+        <div class="mb-2 text-primary fw-semibold">Học tiếng Nhật từ xa</div>
+        <h2 class="fw-bold mb-3" style="font-size:2.2rem;">Việc học ngoại ngữ chưa bao giờ đơn giản đến như vậy</h2>
+        <p class="mb-4 text-dark" style="font-size:1.15rem;">Các chương trình đào tạo của ThaoLeJP có thể mang lại cho bạn trải nghiệm học tập trực tuyến cực kỳ thú vị! Bạn không bao giờ phải đối mặt với bất kỳ trải nghiệm tiêu cực nào trong khi tận hưởng các lớp học của mình ở bất cứ nơi đâu. Các phương pháp giảng dạy của chúng tôi sẽ giúp bạn học tốt hơn và nhanh hơn so với các cách học kỹ năng truyền thống.</p>
+        <a class="btn btn-primary btn-lg px-4" href="/courses/">Tham gia</a>
+      </div>
     </div>
   </div>
 </section>
@@ -23,7 +133,7 @@
   <div class="container">
     <div class="d-flex justify-content-between align-items-end mb-3">
       <h2 class="h4 mb-0">Tin tức và sự kiện đào tạo</h2>
-      <a class="btn btn-outline-secondary btn-sm" href="{% url 'news:list' %}">Xem thêm</a>
+  <a class="btn btn-outline-secondary btn-sm" href="#">Xem thêm</a>
     </div>
 
     <div class="row g-3">

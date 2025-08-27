@@ -21,6 +21,7 @@ urlpatterns = [
     # ===== Learn view (playlist) =====
     # by-id
     path("by-id/<int:course_id>/learn/<int:lesson_id>/", views.LessonLearnView.as_view(), name="lesson_by_id"),
+    path("lesson/<int:lesson_id>/complete/", views.lesson_complete, name="lesson_complete"),
     # by-slug
     path("<slug:slug>/learn/<int:lesson_id>/",           views.LessonLearnView.as_view(), name="lesson"),
 
@@ -40,7 +41,7 @@ urlpatterns = [
     # ===== Start & Enroll (course-level actions) =====
     # by-id
     path("by-id/<int:pk>/start/",   views.start_course_id,   name="start_by_id"),
-    path("by-id/<int:pk>/enroll/",  views.enroll_request,    name="enroll_by_id"),
+    path("by-id/<int:pk>/enroll/",  views.enroll_request_id,    name="enroll_by_id"),
     # by-slug
     path("<slug:slug>/start/",      views.start_course_slug, name="start"),
     path("<slug:slug>/enroll/",     views.enroll_request_slug, name="enroll"),
@@ -51,4 +52,8 @@ urlpatterns = [
 
     # ===== Enrollment admin action (optional) =====
     path("enrollment/<int:enrollment_id>/approve/", views.approve_enrollment, name="approve_enrollment"),
+    
+    # Đánh giá khóa học
+    path('<int:course_id>/reviews/', views.CourseReviewListView.as_view(), name='review_list'),
+    path('<int:course_id>/review/submit/', views.CourseReviewSubmitView.as_view(), name='review_submit'),
 ]

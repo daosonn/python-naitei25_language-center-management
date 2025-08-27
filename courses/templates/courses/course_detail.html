@@ -32,6 +32,16 @@
 
     <div class="tab-content border border-top-0 rounded-bottom p-3">
       <div class="tab-pane fade show active" id="tabIntro">
+        <div class="mb-2">
+          <span class="text-warning">
+            <i class="bi bi-star-fill"></i>
+            <span class="fw-semibold">{{ avg_rating|floatformat:2 }}</span>
+            <span class="text-muted">({{ reviews|length }})</span>
+          </span>
+          <span class="ms-3 text-muted">
+            <i class="bi bi-people"></i> {{ course.students_count|default:0 }}
+          </span>
+        </div>
         {{ course.description|default:""|safe }}
       </div>
 
@@ -79,6 +89,9 @@
                             <span class="text-truncate">
                               {% if lesson.order %}<span class="text-muted">{{ lesson.order }}.</span>{% endif %}
                               {{ lesson.title }}
+                              {% if lesson.total_duration_text %}
+                                <span class="ms-2 small text-muted"><i class="bi bi-clock"></i> {{ lesson.total_duration_text }}</span>
+                              {% endif %}
                               {% if lesson.is_preview %}<span class="badge rounded-pill bg-success ms-2">{% trans "Xem thử" %}</span>{% endif %}
                             </span>
                           </div>
@@ -123,11 +136,35 @@
       {# ======================= /NỘI DUNG KHÓA HỌC ======================= #}
 
       <div class="tab-pane fade" id="tabTeacher">
-        {{ course.teacher_bio|default:""|safe }}
+        {% if course.teacher %}
+          <div class="d-flex align-items-start gap-4 py-3">
+            {% if course.teacher.avatar %}
+              <img src="{{ course.teacher.avatar.url }}" alt="{{ course.teacher.name }}" class="rounded-circle border shadow" style="width: 140px; height: 140px; object-fit: cover;">
+            {% else %}
+              <div class="rounded-circle bg-secondary d-flex align-items-center justify-content-center border shadow" style="width: 140px; height: 140px;">
+                <i class="bi bi-person-circle fs-1 text-white"></i>
+              </div>
+            {% endif %}
+            <div class="flex-grow-1">
+              <h4 class="mb-2">{{ course.teacher.name }}</h4>
+              {% if course.teacher.position %}
+                <div class="mb-2 text-primary fw-semibold">{{ course.teacher.position|linebreaksbr|safe }}</div>
+              {% endif %}
+              {% if course.teacher.experience %}
+                <div class="mb-2">{{ course.teacher.experience|linebreaksbr|safe }}</div>
+              {% endif %}
+              {% if course.teacher.bio %}
+                <div class="mb-2">{{ course.teacher.bio|linebreaksbr|safe }}</div>
+              {% endif %}
+            </div>
+          </div>
+        {% else %}
+          <div class="text-muted">Chưa có thông tin giảng viên cho khóa học này.</div>
+        {% endif %}
       </div>
 
       <div class="tab-pane fade" id="tabReviews">
-        <!-- TODO: hiển thị review -->
+        {% include "courses/course_review_list.html" with course=course reviews=reviews avg_rating=avg_rating form=review_form %}
       </div>
     </div>
   </div>

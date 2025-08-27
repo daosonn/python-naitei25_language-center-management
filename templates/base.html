@@ -9,11 +9,12 @@
   {# Bootstrap 5 + Bootstrap Icons (local static) #}
   <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
   <link href="{% static 'vendor/bootstrap-icons/font/bootstrap-icons.css' %}" rel="stylesheet">
-
   <link href="{% static 'css/main.css' %}" rel="stylesheet" />
+  <link href="{% static 'css/styles.css' %}" rel="stylesheet" />
   {% block extra_css %}{% endblock %}
 </head>
 <body class="d-flex flex-column min-vh-100">
+
   {% include "components/_navbar.html" %}
 
   <main class="flex-grow-1">
@@ -29,6 +30,7 @@
   <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
   <script src="{% static 'js/main.js' %}"></script>
   <script src="{% static 'js/navbar.js' %}"></script>
+  <script src="{% static 'js/notifications.js' %}"></script>
   {% block extra_js %}{% endblock %}
 </body>
 </html>

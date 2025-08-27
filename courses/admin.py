@@ -1,3 +1,6 @@
+from .models import Teacher
+
+
 from django.contrib import admin
 from .models import Course, Lesson, Enrollment
 from django.utils.html import format_html
@@ -7,9 +10,10 @@ from constants import EnrollmentStatus
 
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
-    list_display = ('name', 'created_at')
-    search_fields = ('name',)
+    list_display = ('name', 'created_at', 'teacher', 'is_public')
+    search_fields = ('name', 'teacher__name')
     ordering = ('name',)
+    autocomplete_fields = ['teacher']
 
 @admin.register(Lesson)
 class LessonAdmin(admin.ModelAdmin):
@@ -50,3 +54,8 @@ class EnrollmentAdmin(admin.ModelAdmin):
     search_fields = ("user__username", "user__email", "course__name")
     raw_id_fields = ("user", "course")   
     actions = [approve, reject]
+
+@admin.register(Teacher)
+class TeacherAdmin(admin.ModelAdmin):
+    list_display = ('name', 'position')
+    search_fields = ('name', 'position')

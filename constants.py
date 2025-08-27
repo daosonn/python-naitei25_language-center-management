@@ -145,3 +145,25 @@ STATUS_LABELS = {
 }
 
 STATUS_CHOICES = tuple((k, v) for k, v in STATUS_LABELS.items())
+# constants.py
+
+# Pagination
+COURSE_LIST_PAGE_SIZE = 12
+
+# Ordering
+LESSON_ORDERING_FALLBACK = ("order", "id")
+LESSON_ORDERING_WITH_SECTION = ("section_id", "order", "id")
+
+# YouTube
+YOUTUBE_EMBED_BASE = "https://www.youtube.com/embed/"
+
+# Messages (i18n sẽ bọc trong view)
+ENROLL_SUCCESS_MSG = "Yêu cầu đăng ký đã được gửi."
+ENROLL_ALREADY_APPROVED_MSG = "Bạn đã được duyệt khóa học này."
+COURSE_NO_LESSON_MSG = "Khóa học chưa có bài học."
+COURSE_NEED_APPROVAL_MSG = "Bạn cần được duyệt để bắt đầu học."
+
+# Pagination
+MY_COURSES_PAGE_SIZE = 12
+# ==== User Progress / Donut chart ====
+PROGRESS_DONUT_CIRCUMFERENCE = 377   # chu vi vòng tròn (px)

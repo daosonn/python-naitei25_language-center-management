@@ -190,7 +190,7 @@ LOGIN_REDIRECT_URL = '/accounts/profile/'
 LOGOUT_REDIRECT_URL = '/'
 
 #Admin_site
-ADMIN_LOGIN_REDIRECT_URL = '/custom_admin/dashboard/'
+ADMIN_LOGIN_REDIRECT_URL = '/'
 
 # Profile URLs
 PROFILE_URL = '/accounts/profile/'

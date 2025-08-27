@@ -1,10 +1,10 @@
 :root{
-  --teal:#006699;     /* <— đổi từ màu cũ */
-  --teal-600:#00577a; /* tối hơn chút cho hover */
+  --teal:#006699;     /* Đúng màu cho nút Vào học */
+  --teal-600:#005077; /* tối hơn chút cho hover */
 }
 .bg-teal{ background-color: var(--teal) !important; }
-.btn-teal{ background-color: var(--teal); color:#006699; }
-.btn-teal:hover{ background-color: var(--teal-600); color:#006699; }
+.btn-teal{ background-color: var(--teal) !important; color:#fff !important; }
+.btn-teal:hover{ background-color: var(--teal-600) !important; color:#fff !important; }
 .btn-outline-teal{ color:var(--teal); border-color:var(--teal); }
 .btn-outline-teal:hover{ background:var(--teal); color:#006699; }
 

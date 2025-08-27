@@ -1,5 +1,6 @@
 {% load static %}
-<nav class="navbar navbar-expand-lg navbar-dark shadow-sm" style="background:#003399">  <div class="container">
+<nav class="navbar navbar-expand-lg navbar-dark shadow-sm" style="background:#0066CC">
+  <div class="container-fluid">
     <a class="navbar-brand d-flex align-items-center" href="{% url 'home' %}">
       <img src="{% static '/img/logo.png' %}" alt="{{ C.SITE.NAME }} logo" class="me-2" style="height:28px;">
       <span>{{ C.SITE.NAME }}</span>
@@ -29,6 +30,17 @@
 
       <!-- Right: user -->
       <ul class="navbar-nav ms-auto">
+        <!-- Notification Bell -->
+        <li class="nav-item d-flex align-items-center me-2">
+          <a class="nav-link position-relative" href="#" id="notificationBell" title="Thông báo">
+            <i class="bi bi-bell fs-5"></i>
+            <!-- Badge for unread notifications (ẩn nếu không có) -->
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="font-size:0.7em; display:none;" id="notificationBadge">
+              0
+              <span class="visually-hidden">unread notifications</span>
+            </span>
+          </a>
+        </li>
         {% if request.user.is_authenticated %}
           {% url 'accounts:profile' as profile_url %}
           {% url 'accounts:change_password' as change_password_url %}

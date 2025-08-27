@@ -1,4 +1,8 @@
 # custom_admin/urls.py
-from django.urls import path
 
-urlpatterns = [] # Đây là một danh sách hợp lệ, ngay cả khi rỗng.
+from django.urls import path
+from . import views
+
+urlpatterns = [
+	path('api/unread/', views.unread_notifications, name='notifications_unread'),
+]

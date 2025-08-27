@@ -1,3 +1,13 @@
+/* Override màu cho nút Vào học (btn-teal) để luôn đúng màu và chữ trắng */
+.btn-teal, .btn-teal:visited {
+    background-color: #006699 !important;
+    color: #fff !important;
+    border: none !important;
+}
+.btn-teal:hover, .btn-teal:focus {
+    background-color: #005077 !important;
+    color: #fff !important;
+}
 /* General Body and Container */
 body {
     margin: 0;
@@ -5,12 +15,9 @@ body {
     font-family: 'Roboto', sans-serif;
     background: url("{% static 'img/background.jpg' %}") no-repeat center center fixed;
     background-size: cover;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     min-height: 100vh;
     color: #333;
-    overflow: hidden; /* Prevent scrollbar if content is slightly larger than viewport */
+    /* Bỏ display:flex, justify-content, align-items, overflow:hidden để không giới hạn chiều ngang */
 }
 
 .login-container {

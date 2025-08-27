@@ -3,16 +3,39 @@
 {% block content %}
 <h1 class="h4 mb-3">Tiến độ học tập</h1>
 
+<div class="d-flex flex-column align-items-center mb-4">
+  <div style="width: 140px; height: 140px; position: relative;">
+    <svg width="140" height="140">
+      <circle cx="70" cy="70" r="60" stroke="#e9ecef" stroke-width="16" fill="none" />
+      <circle cx="70" cy="70" r="60" stroke="#007bff" stroke-width="16" fill="none"
+        stroke-dasharray="377" stroke-dashoffset="{{ stroke_dashoffset }}"
+        style="transition: stroke-dashoffset 0.6s;"/>
+    </svg>
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;">
+      <div class="fw-bold" style="font-size: 2rem;">{{ overall_percent }}%</div>
+    </div>
+  </div>
+  <div class="text-muted mt-2">Tổng tiến độ: {{ total_completed }}/{{ total_lessons }} bài học</div>
+</div>
+
+<form method="get" class="mb-3" style="max-width: 300px; margin: 0 auto;">
+  <select name="course" class="form-select" onchange="this.form.submit()">
+    <option value="" {% if not selected_course_id %}selected{% endif %}>Tất cả khóa học</option>
+    {% for course in progress_list %}
+      <option value="{{ course.id }}" {% if selected_course_id == course.id|stringformat:'s' %}selected{% endif %}>{{ course.title }}</option>
+    {% endfor %}
+  </select>
+</form>
+
+<h2 class="h5 mb-3">Các khóa học của tôi</h2>
 {% for course in progress_list %}
-  <div class="card mb-3">
-    <div class="card-body">
-      <div class="d-flex justify-content-between align-items-center mb-2">
-        <h2 class="h6 mb-0">{{ course.title }}</h2>
-        <span class="text-muted small">{{ course.completed }}/{{ course.total }} bài</span>
-      </div>
-      <div class="progress" role="progressbar" aria-valuenow="{{ course.percent }}" aria-valuemin="0" aria-valuemax="100">
-        <div class="progress-bar bg-teal" style="width: {{ course.percent }}%">{{ course.percent }}%</div>
-      </div>
+  <div class="mb-3">
+    <div class="d-flex justify-content-between align-items-center mb-1">
+      <span class="fw-semibold">{{ course.title }}</span>
+      <span class="text-muted small">{{ course.percent }}%</span>
+    </div>
+    <div class="progress" style="height: 8px;">
+      <div class="progress-bar" role="progressbar" style="width: {{ course.percent }}%; background: {% cycle '#FFA726' '#29B6F6' %};"></div>
     </div>
   </div>
 {% empty %}

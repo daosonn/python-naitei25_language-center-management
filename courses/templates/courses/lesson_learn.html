@@ -48,7 +48,12 @@
                     <a class="d-flex justify-content-between align-items-center text-decoration-none row-link"
                        href="{{ l_url }}">
                       <span><i class="bi bi-play-circle me-2"></i> {% trans "Video bài giảng" %}</span>
-                      {% if l.duration_seconds %}<span class="small text-muted">{{ l.get_duration_text }}</span>{% endif %}
+                      <span class="d-flex align-items-center gap-2">
+                        {% if l.duration_seconds %}<span class="small text-muted">{{ l.get_duration_text }}</span>{% endif %}
+                        {% if completed_lessons and l.id in completed_lessons %}
+                          <i class="bi bi-check-circle-fill text-success" title="Đã hoàn thành"></i>
+                        {% endif %}
+                      </span>
                     </a>
                   </li>
 
@@ -63,6 +68,13 @@
                       <a class="d-flex justify-content-between align-items-center text-decoration-none row-link"
                          href="{{ q_url }}">
                         <span><i class="bi bi-question-circle me-2"></i> {% trans "Bài tập kiểm tra" %}</span>
+                        <span>
+                          {% with lid=l.id %}
+                            {% if quiz_passed and quiz_passed.lid %}
+                              <i class="bi bi-check-circle-fill text-success" title="Đã qua bài kiểm tra"></i>
+                            {% endif %}
+                          {% endwith %}
+                        </span>
                       </a>
                     </li>
                   {% else %}
@@ -152,6 +164,11 @@
           {% endif %}
           <a class="btn btn-primary btn-sm" href="{{ next_url }}">{% trans "Bài sau ›" %}</a>
         {% endif %}
+        {# Nút hoàn thành bài học #}
+        <form method="post" action="{% url 'courses:lesson_complete' object.id %}" class="d-inline ms-2">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-success btn-sm">{% trans "Hoàn thành bài học" %}</button>
+        </form>
       </div>
 
       <a class="text-white text-decoration-none" href="#playlistAccordion">

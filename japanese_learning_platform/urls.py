@@ -10,7 +10,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from .settings import STATIC_ROOT, STATIC_URL, MEDIA_URL, MEDIA_ROOT
 from django.urls import path, include
-from courses.views import CourseListView
+from courses.views import CourseListView, HomeView
 
 urlpatterns = [
     path('admin/', include('nested_admin.urls')),
@@ -21,7 +21,7 @@ urlpatterns = [
     path('quizzes/', include('quizzes.urls', namespace='quizzes')),
     path('progress/', include('user_progress.urls', namespace='user_progress')), # URL cho ứng dụng user_progress
     path('notifications/', include('notifications.urls')), # URL cho ứng dụng notifications (nếu có views)
-    path("", CourseListView.as_view(), name='home'),
+    path("", HomeView.as_view(), name='home'),
     path('oauth/', include('social_django.urls', namespace='social'))
 ]
                                                                                                                                                                                                                                                                                                                                                                                                                                                     
