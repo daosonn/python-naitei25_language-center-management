@@ -1,3 +1,4 @@
+from .models import Section
 from .models import Teacher
 
 
@@ -17,7 +18,9 @@ class CourseAdmin(admin.ModelAdmin):
 
 @admin.register(Lesson)
 class LessonAdmin(admin.ModelAdmin):
-    list_display = ('title', 'course', 'order', 'video_preview')
+    list_display = ('title', 'course', 'section', 'order', 'video_preview')
+    list_filter = ('course', 'section')
+    autocomplete_fields = ['course', 'section']
 
     def video_preview(self, obj):
         if obj.video_url:
@@ -59,3 +62,9 @@ class EnrollmentAdmin(admin.ModelAdmin):
 class TeacherAdmin(admin.ModelAdmin):
     list_display = ('name', 'position')
     search_fields = ('name', 'position')
+
+# Section admin hỗ trợ autocomplete
+@admin.register(Section)
+class SectionAdmin(admin.ModelAdmin):
+    search_fields = ('title', 'course__name')
+    autocomplete_fields = ['course']

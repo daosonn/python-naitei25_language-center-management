@@ -83,6 +83,36 @@ class User(AbstractBaseUser, PermissionsMixin):
         return self.is_active and not self.is_blocked
 
 class UserProfile(models.Model):
+    full_name = models.CharField(
+        max_length=128,
+        null=True,
+        blank=True,
+        verbose_name=_('Họ và Tên')
+    )
+    phone_number = models.CharField(
+        max_length=20,
+        null=True,
+        blank=True,
+        verbose_name=_('Số điện thoại')
+    )
+    japanese_level = models.CharField(
+        max_length=64,
+        null=True,
+        blank=True,
+        verbose_name=_('Trình độ tiếng Nhật')
+    )
+    address = models.CharField(
+        max_length=256,
+        null=True,
+        blank=True,
+        verbose_name=_('Địa chỉ')
+    )
+    country = models.CharField(
+        max_length=64,
+        null=True,
+        blank=True,
+        verbose_name=_('Quốc gia')
+    )
     user = models.OneToOneField(
         User, 
         on_delete=models.RESTRICT, 
@@ -111,25 +141,17 @@ class UserProfile(models.Model):
         help_text=_("Ảnh đại diện của người dùng"),
         verbose_name=_("Ảnh đại diện")
     )
-    description = models.TextField(
-        null=True, 
-        blank=True,
-        help_text=_("Mô tả về bản thân"),
-        verbose_name=_("Mô tả")
-    )
-    interest = models.TextField(
-        null=True, 
-        blank=True,
-        help_text=_("Sở thích, thể loại truyện yêu thích"),
-        verbose_name=_("Sở thích")
-    )
-    is_locked = models.BooleanField(
-        default=False,
-        help_text=_("Khóa profile"),
-        verbose_name=_("Bị khóa")
-    )
+    # Trạng thái hoạt động: dùng user.is_active thay cho is_locked
     created_at = models.DateTimeField(auto_now_add=True, verbose_name=_("Tạo lúc"))
     updated_at = models.DateTimeField(auto_now=True, verbose_name=_("Cập nhật lúc"))
+
+    @property
+    def role(self):
+        return self.user.role if self.user else None
+
+    @property
+    def active(self):
+        return self.user.is_active if self.user else False
     
     class Meta:
         verbose_name = _('Hồ sơ người dùng')
@@ -137,10 +159,10 @@ class UserProfile(models.Model):
     
     def __str__(self):
         return f"Profile of {self.user.username}"
-    
+
     def get_name(self):
-        return self.display_name or self.user.username
-    
+        return self.display_name or self.full_name or self.user.username
+
     def get_avatar(self):
         if self.avatar:
             return self.avatar.url

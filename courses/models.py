@@ -31,6 +31,19 @@ from constants import (
 
 # ======================= COURSE ======================= #
 class Course(models.Model):
+
+    @property
+    def duration_text(self):
+        total_minutes = sum(l.total_duration_minutes for l in self.lessons.all())
+        if total_minutes >= 60:
+            hours = total_minutes // 60
+            minutes = total_minutes % 60
+            if minutes:
+                return f"{hours} giờ {minutes} phút"
+            return f"{hours} giờ"
+        elif total_minutes > 0:
+            return f"{total_minutes} phút"
+        return "—"
     is_public = models.BooleanField(_('Public'), default=True, help_text=_('Bỏ chọn để ẩn khoá học này khỏi người dùng'))
     name = models.CharField(_("Course Name"), max_length=COURSE_NAME_MAX_LENGTH)
     slug = models.SlugField(_("Slug"), max_length=128, blank=True, null=True)
@@ -94,6 +107,15 @@ class Lesson(models.Model):
         on_delete=models.CASCADE,
         related_name="lessons",
         verbose_name=_("Course"),
+    )
+    section = models.ForeignKey(
+        "courses.Section",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="lessons",
+        verbose_name=_("Section"),
+        help_text=_("Chọn phần cho bài học (ví dụ: Từ vựng, Ngữ pháp, Luyện đề, ...)")
     )
     title = models.CharField(_("Lesson Title"), max_length=LESSON_TITLE_MAX_LENGTH)
     description = models.TextField(_("Description"), blank=True)

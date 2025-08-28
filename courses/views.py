@@ -98,7 +98,7 @@ class HomeView(TemplateView):
 # =====================================================
 # Course: List / Detail
 # =====================================================
-class CourseListView(LoginRequiredMixin, ListView):
+class CourseListView(ListView):
     """
     Danh sách khoá học (grid) + search, sort, paginate.
     """
@@ -177,6 +177,9 @@ class CourseDetailView(DetailView):
             bool(enrollment and enrollment.status == EnrollmentStatus.APPROVED.value)
             or (user.is_authenticated and (user.is_staff or user.is_superuser))
         )
+
+        # Số lượng học viên đã duyệt
+        ctx["students_count"] = course.enrollments.filter(status=EnrollmentStatus.APPROVED.value).count()
 
         # Reviews
         ctx["reviews"] = CourseReview.objects.filter(course=course).select_related("user").order_by("-created_at")
@@ -515,7 +518,27 @@ class QuizResultView(CourseAccessRequiredMixin, DetailView):
         m, s = divmod(duration_seconds, 60)
         ctx["duration_seconds"] = duration_seconds
         ctx["duration_text"] = f"{m} phút {s} giây" if m else f"{s} giây"
-        ctx["answers"] = sub.answers.select_related("question", "choice").all()
+        # Tính % điểm và logic đạt/không đạt
+        total = sub.quiz.questions.count() or 1
+        percent = round(sub.score / total * 100)
+        ctx["score_percent"] = percent
+        pass_rate = getattr(sub.quiz, "pass_rate", 60)
+        ctx["pass_rate"] = pass_rate
+        ctx["is_passed"] = percent >= pass_rate
+        # Build answers context for new UI/UX
+        answers = []
+        for ans in sub.answers.select_related("question", "choice").all():
+            question = ans.question
+            answer_dict = {
+                "question": question,
+                "choice": ans.choice,
+                "choice_id": ans.choice.id if ans.choice else None,
+            }
+            # Attach all choices and explanation for template
+            answer_dict["question"].choices_all = list(question.choices.all())
+            answer_dict["question"].explanation = getattr(question, "explanation", "")
+            answers.append(answer_dict)
+        ctx["answers"] = answers
         return ctx
 
 

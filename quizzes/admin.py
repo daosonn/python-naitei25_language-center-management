@@ -12,7 +12,7 @@ class ChoiceInline(nested_admin.NestedTabularInline):
 class QuestionInline(nested_admin.NestedStackedInline):
     model = Question
     extra = 1
-    fields = ('order', 'text')
+    fields = ('order', 'text', 'explanation')
     inlines = [ChoiceInline]    # ← lồng inline Choice vào Question
 
 @admin.register(Quiz)

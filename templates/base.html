@@ -26,6 +26,10 @@
 
   {% include "components/_footer.html" %}
 
+  {# Nhúng login modal #}
+  {% include "accounts/login_modal.html" %}
+  {% include "accounts/register_modal.html" %}
+
   {# JS local (bundle có sẵn Popper) #}
   <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
   <script src="{% static 'js/main.js' %}"></script>

@@ -1,0 +1,112 @@
+{% load static %}
+<!-- Modal Login for Jkokoro -->
+<div id="loginModal" class="jk-modal" style="display:none;">
+  <div class="jk-modal-content">
+    <span class="jk-modal-close" onclick="closeLoginModal()">&times;</span>
+    <div class="jk-modal-body">
+      <div class="jk-modal-left">
+        <h2>HỌC BÀI MỚI CÙNG JKOKORO!</h2>
+        <p>Tiếng Nhật khó, đã có Jkokoro!<br>Hệ sinh thái Nhật ngữ số 1 dành cho người Việt!</p>
+        <form id="loginForm" method="post" action="{% url 'accounts:login' %}">
+          {% csrf_token %}
+          <input type="hidden" name="next" value="{{ request.path }}">
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+          </div>
+          <div class="form-group">
+            <label for="password">Mật khẩu</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+          </div>
+          <button type="submit" class="jk-btn jk-btn-green">Đăng nhập</button>
+        </form>
+        <div class="jk-modal-links">
+          <a href="#" class="jk-link">Quên mật khẩu?</a>
+        </div>
+        <div class="jk-modal-or">
+          <span style="display:inline-block;width:20%;border-top:1px solid #e0e0e0;vertical-align:middle;margin-right:8px;"></span>
+          <span style="color:#3a3a3a;font-weight:500;">Hoặc đăng nhập với</span>
+          <span style="display:inline-block;width:20%;border-top:1px solid #e0e0e0;vertical-align:middle;margin-left:8px;"></span>
+        </div>
+        <div class="jk-modal-social" style="display:flex;gap:18px;justify-content:center;margin-top:12px;">
+          <a href="/oauth/login/facebook/" class="jk-social-btn" style="display:flex;align-items:center;gap:8px;background:#f6fbfd;border-radius:12px;padding:10px 28px 10px 18px;text-decoration:none;box-shadow:none;border:none;min-width:140px;">
+            <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="16" fill="#1877F3"/><path d="M21.333 16.001h-3.2v8h-3.2v-8h-1.6v-2.667h1.6v-1.6c0-2.133 1.067-3.2 3.2-3.2h2.133v2.667h-1.067c-.533 0-.8.267-.8.8v1.333h2.133l-.267 2.667z" fill="#fff"/></svg>
+            <span style="color:#1877F3;font-weight:500;font-size:1.1rem;">Facebook</span>
+          </a>
+          <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}" class="jk-social-btn" style="display:flex;align-items:center;gap:8px;background:#f6fbfd;border-radius:12px;padding:10px 28px 10px 18px;text-decoration:none;box-shadow:none;border:none;min-width:140px;">
+            <svg width="28" height="28" viewBox="0 0 32 32"><g><circle fill="#fff" cx="16" cy="16" r="16"/><path d="M25.6 16.204c0-.64-.057-1.28-.172-1.904H16v3.6h5.36c-.232 1.232-.936 2.28-1.992 2.984v2.48h3.224c1.888-1.736 2.976-4.296 2.976-7.16z" fill="#4285F4"/><path d="M16 26c2.7 0 4.968-.892 6.624-2.424l-3.224-2.48c-.896.6-2.04.952-3.4.952-2.616 0-4.832-1.768-5.624-4.144h-3.32v2.6C8.992 23.888 12.232 26 16 26z" fill="#34A853"/><path d="M10.376 17.904A5.997 5.997 0 0 1 10 16c0-.656.112-1.296.312-1.904v-2.6h-3.32A9.997 9.997 0 0 0 6 16c0 1.624.392 3.16 1.064 4.504l3.312-2.6z" fill="#FBBC05"/><path d="M16 10.376c1.472 0 2.784.504 3.824 1.488l2.872-2.872C20.968 7.892 18.7 7 16 7c-3.768 0-7.008 2.112-8.688 5.496l3.312 2.6c.792-2.376 3.008-4.144 5.376-4.144z" fill="#EA4335"/></g></svg>
+            <span style="color:#444;font-weight:500;font-size:1.1rem;">Google</span>
+          </a>
+        </div>
+        <div class="jk-modal-register">
+          Bạn chưa có tài khoản? <a href="#" class="jk-link" onclick="switchToRegisterModal();return false;">Đăng ký ngay</a>
+        </div>
+<script>
+function switchToRegisterModal() {
+  closeLoginModal();
+  openRegisterModal();
+}
+</script>
+      </div>
+      <div class="jk-modal-right">
+        <img src="{% static 'img/login.jpg' %}" alt="Jkokoro login" class="jk-modal-img">
+        <div class="jk-modal-brand">
+          <div class="jk-modal-brand-title">JKOKORO</div>
+          <div class="jk-modal-brand-desc">Hệ sinh thái Nhật Ngữ số 1 dành cho người Việt</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal CSS -->
+<style>
+.jk-modal {
+  position: fixed; z-index: 9999; left: 0; top: 0; width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center;
+}
+.jk-modal-content {
+  background: #fff; border-radius: 24px; width: 80vw; max-width: 900px; min-height: 60vh; display: flex; flex-direction: column; position: relative;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+}
+.jk-modal-close {
+  position: absolute; top: 18px; right: 32px; font-size: 2rem; color: #333; cursor: pointer; z-index: 2;
+}
+.jk-modal-body { display: flex; height: 100%; }
+.jk-modal-left { flex: 1.2; padding: 48px 32px 32px 48px; display: flex; flex-direction: column; justify-content: center; }
+.jk-modal-right { flex: 1; background: #e6f5e9; border-radius: 0 24px 24px 0; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
+.jk-modal-img { width: 90%; border-radius: 16px; margin-bottom: 16px; }
+.jk-modal-brand { text-align: center; }
+.jk-modal-brand-title { font-size: 2.5rem; font-weight: bold; color: #1a7f37; letter-spacing: 2px; }
+.jk-modal-brand-desc { font-size: 1.1rem; color: #1a7f37; margin-top: 8px; }
+.jk-btn { border: none; border-radius: 24px; padding: 12px 0; width: 100%; font-size: 1.1rem; margin-top: 18px; cursor: pointer; }
+.jk-btn-green { background: #4cd964; color: #fff; font-weight: bold; }
+.jk-btn-fb { background: #1877f3; color: #fff; margin-right: 8px; }
+.jk-btn-gg { background: #fff; color: #444; border: 1px solid #ddd; margin-left: 8px; }
+.jk-modal-or { text-align: center; margin: 18px 0 8px 0; color: #888; }
+.jk-modal-social { display: flex; justify-content: center; gap: 12px; }
+.jk-modal-links, .jk-modal-register { margin-top: 12px; text-align: left; }
+.jk-link { color: #1a7f37; text-decoration: underline; cursor: pointer; }
+@media (max-width: 900px) {
+  .jk-modal-content { flex-direction: column; width: 98vw; }
+  .jk-modal-body { flex-direction: column; }
+  .jk-modal-left, .jk-modal-right { padding: 24px; }
+}
+</style>
+
+<!-- Modal JS -->
+<script>
+function openLoginModal() {
+  document.getElementById('loginModal').style.display = 'flex';
+}
+function closeLoginModal() {
+  document.getElementById('loginModal').style.display = 'none';
+}
+// Optional: Close modal when click outside
+window.onclick = function(event) {
+  var modal = document.getElementById('loginModal');
+  if (event.target === modal) {
+    closeLoginModal();
+  }
+}
+</script>

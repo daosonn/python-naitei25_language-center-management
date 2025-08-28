@@ -1,3 +1,5 @@
+# Jazzmin custom menu order
+from .jazzmin_settings import JAZZMIN_SETTINGS
 """
 Cấu hình cơ bản cho dự án Django.
 Các cài đặt chung cho cả môi trường phát triển và sản xuất.
@@ -35,11 +37,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "jazzmin",  # Giao diện admin hiện đại
     "django.contrib.admin",
-    "django.contrib.auth",
-    "django.contrib.contenttypes",
-    "django.contrib.sessions",
-    "django.contrib.messages",
     "django.contrib.staticfiles",
     "accounts.apps.AccountsConfig",
     "quizzes.apps.QuizzesConfig",
@@ -47,9 +46,14 @@ INSTALLED_APPS = [
     "courses.apps.CoursesConfig",
     "custom_admin.apps.Custom_adminConfig",
     "notifications.apps.NotificationsConfig",
-    "social_django",
     "django_recaptcha",
     'nested_admin',
+    # Đưa các app xác thực và social auth xuống cuối
+    "django.contrib.auth",
+    "django.contrib.contenttypes",
+    "django.contrib.sessions",
+    "django.contrib.messages",
+    "social_django",
 ]
 
 MIDDLEWARE = [
@@ -136,7 +140,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = "en-us"
+LANGUAGE_CODE = "vi"
 
 TIME_ZONE = "UTC"
 
@@ -170,9 +174,9 @@ AUTH_USER_MODEL = 'accounts.User'  # Thay 'accounts' bằng tên app của bạn
 
 # Authentication backends
 AUTHENTICATION_BACKENDS = [
+    'social_core.backends.google.GoogleOAuth2',
     'accounts.utils.AuthBackend',
     'django.contrib.auth.backends.ModelBackend',
-    'social_core.backends.google.GoogleOAuth2',
 ]
 
 LOGIN_EXEMPT_URLS = [

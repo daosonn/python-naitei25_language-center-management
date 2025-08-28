@@ -31,6 +31,7 @@ def quiz_detail(request, lesson_id: int):
             review = []   # cho template mới (quizzes/result.html)
             results = []  # giữ tương thích template cũ (quizzes/quiz_result.html)
 
+
             for q in questions:
                 field = f"question_{q.pk}"
                 sel_raw = form.cleaned_data.get(field)
@@ -43,7 +44,6 @@ def quiz_detail(request, lesson_id: int):
                     except (ValueError, Choice.DoesNotExist):
                         selected = None
 
-                # đáp án đúng
                 correct_choice = None
                 for ch in q.choices.all():
                     if ch.is_correct:
@@ -51,14 +51,20 @@ def quiz_detail(request, lesson_id: int):
                         break
 
                 is_correct = bool(selected and selected.is_correct)
+                is_skip = selected is None
+                is_wrong = (selected is not None and not is_correct)
                 if is_correct:
                     correct += 1
 
                 review.append({
-                    "question": q.text,
+                    "question": q,  # truyền object để lấy giải thích và choices
                     "user_choice": selected.text if selected else "—",
+                    "user_choice_obj": selected,
                     "correct_choice": correct_choice.text if correct_choice else "—",
+                    "correct_choice_obj": correct_choice,
                     "is_correct": is_correct,
+                    "is_wrong": is_wrong,
+                    "is_skip": is_skip,
                 })
 
                 results.append({

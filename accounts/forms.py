@@ -180,6 +180,11 @@ class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = [
+            'full_name',
+            'phone_number',
+            'japanese_level',
+            'address',
+            'country',
             'display_name',
             'gender',
             'birthday',
@@ -189,6 +194,26 @@ class ProfileUpdateForm(forms.ModelForm):
             'is_locked',
         ]
         widgets = {
+            'full_name': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': _('Nhập họ và tên')
+            }),
+            'phone_number': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': _('Nhập số điện thoại')
+            }),
+            'japanese_level': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': _('Nhập trình độ tiếng Nhật (N5, N4, ... hoặc mô tả)')
+            }),
+            'address': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': _('Nhập địa chỉ')
+            }),
+            'country': forms.TextInput(attrs={
+                'class': 'form-control',
+                'placeholder': _('Nhập quốc gia')
+            }),
             'display_name': forms.TextInput(attrs={
                 'class': 'form-control',
                 'placeholder': _('Nhập tên hiển thị')
@@ -219,6 +244,11 @@ class ProfileUpdateForm(forms.ModelForm):
             }),
         }
         labels = {
+            'full_name': _('Họ và Tên'),
+            'phone_number': _('Số điện thoại'),
+            'japanese_level': _('Trình độ tiếng Nhật'),
+            'address': _('Địa chỉ'),
+            'country': _('Quốc gia'),
             'display_name': _('Tên hiển thị'),
             'gender': _('Giới tính'),
             'birthday': _('Ngày sinh'),

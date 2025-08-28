@@ -19,7 +19,7 @@
       <i class="bi bi-person-circle"></i> {{ course.author_name|default:"" }}
       <span class="ms-2">
         <i class="bi bi-people"></i>
-        {% blocktrans count s=course.students_count|default:0 %}{{ s }} học viên{% plural %}{{ s }} học viên{% endblocktrans %}
+        {% blocktrans count s=students_count|default:0 %}{{ s }} học viên{% plural %}{{ s }} học viên{% endblocktrans %}
       </span>
     </div>
 
@@ -39,7 +39,7 @@
             <span class="text-muted">({{ reviews|length }})</span>
           </span>
           <span class="ms-3 text-muted">
-            <i class="bi bi-people"></i> {{ course.students_count|default:0 }}
+            <i class="bi bi-people"></i> {{ students_count|default:0 }}
           </span>
         </div>
         {{ course.description|default:""|safe }}
@@ -56,17 +56,19 @@
               {% with sec=grp.grouper sec_id="sec"|add:forloop.counter|stringformat:"s" %}
               <div class="accordion-item mb-2">
                 <h2 class="accordion-header" id="{{ sec_id }}-header">
-                  <button class="accordion-button {% if not forloop.first %}collapsed{% endif %}" type="button"
+                  <button class="accordion-button d-flex justify-content-between align-items-center {% if not forloop.first %}collapsed{% endif %} section-toggle-btn" type="button"
                           data-bs-toggle="collapse" data-bs-target="#{{ sec_id }}-collapse"
                           aria-expanded="{{ forloop.first|yesno:'true,false' }}"
                           aria-controls="{{ sec_id }}-collapse">
-                    {% if sec and sec.title %}
-                      {{ sec.title }}
-                    {% else %}
-                      {% trans "Nội dung khóa học" as content_label %}
-                      {% trans "Phần" as section_label %}
-                      {{ content_label }} — {{ section_label }} {{ forloop.counter }}
-                    {% endif %}
+                    <span class="section-title ms-0">
+                      {% if sec and sec.title %}
+                        {{ sec.title }}
+                      {% else %}
+                        {% trans "Nội dung khóa học" as content_label %}
+                        {% trans "Phần" as section_label %}
+                        {{ content_label }} — {{ section_label }} {{ forloop.counter }}
+                      {% endif %}
+                    </span>
                   </button>
                 </h2>
 
@@ -129,6 +131,27 @@
             document.addEventListener('DOMContentLoaded', function () {
               const t = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
               t.forEach(el => new bootstrap.Tooltip(el));
+            });
+
+            // Đổi icon mũi tên khi mở/đóng accordion section
+            document.querySelectorAll('.section-toggle-btn').forEach(function(btn) {
+              btn.addEventListener('click', function() {
+                // Đợi hiệu ứng collapse xong mới đổi icon
+                setTimeout(function() {
+                  document.querySelectorAll('.section-toggle-btn').forEach(function(b) {
+                    var icon = b.querySelector('.section-arrow');
+                    var target = b.getAttribute('data-bs-target');
+                    var panel = document.querySelector(target);
+                    if (panel && panel.classList.contains('show')) {
+                      icon.classList.remove('bi-chevron-down');
+                      icon.classList.add('bi-chevron-up');
+                    } else {
+                      icon.classList.remove('bi-chevron-up');
+                      icon.classList.add('bi-chevron-down');
+                    }
+                  });
+                }, 350); // thời gian khớp hiệu ứng collapse
+              });
             });
           </script>
         {% endwith %}
@@ -217,7 +240,7 @@
             {% endif %}
           {% endwith %}
         {% else %}
-          <a class="btn btn-outline-primary w-100" href="{% url 'login' %}?next={{ request.path|urlencode }}">
+          <a class="btn btn-outline-primary w-100" href="{% url 'accounts:login' %}?next={{ request.path|urlencode }}">
             {% trans "Đăng nhập để đăng ký" %}
           </a>
         {% endif %}

@@ -16,16 +16,65 @@
       <div class="accordion-item">
         <h2 class="accordion-header">
           <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#rv{{ forloop.counter }}">
-            Câu {{ forloop.counter }}: {{ r.question }}
+            Câu {{ forloop.counter }}: {{ r.question.text }}
           </button>
         </h2>
         <div id="rv{{ forloop.counter }}" class="accordion-collapse collapse" data-bs-parent="#reviewAcc">
           <div class="accordion-body">
-            <p class="mb-1"><span class="badge {% if r.is_correct %}bg-success{% else %}bg-danger{% endif %}">
-              {% if r.is_correct %}Đúng{% else %}Sai{% endif %}
-            </span></p>
-            <p class="mb-1"><strong>Đáp án của bạn:</strong> {{ r.user_choice }}</p>
-            <p class="mb-0"><strong>Đáp án đúng:</strong> {{ r.correct_choice }}</p>
+            {# Hiển thị trạng thái tổng quan #}
+            {% if r.is_skip %}
+              <span class="badge bg-secondary">Bỏ qua</span>
+            {% elif r.is_correct %}
+              <span class="badge bg-success">Đúng</span>
+            {% elif r.is_wrong %}
+              <span class="badge bg-danger">Sai</span>
+            {% endif %}
+
+            <ul class="mt-2 mb-2">
+              {% for choice in r.question.choices.all %}
+                <li style="display:flex;align-items:center;gap:8px;">
+                  {% if r.is_skip %}
+                    {# Không hiển thị V/X #}
+                  {% elif r.is_correct %}
+                    {# Nếu đúng, chỉ hiển thị V ở đáp án đã chọn #}
+                    {% if r.user_choice_obj and choice.pk == r.user_choice_obj.pk %}
+                      <span style="color:green;font-size:18px;">&#10003;</span>
+                    {% endif %}
+                  {% elif r.is_wrong %}
+                    {# Nếu sai, chỉ hiển thị X ở đáp án đã chọn #}
+                    {% if r.user_choice_obj and choice.pk == r.user_choice_obj.pk %}
+                      <span style="color:red;font-size:18px;">&#10007;</span>
+                    {% endif %}
+                  {% endif %}
+                  <span>{{ choice.text }}</span>
+                  {% if r.user_choice_obj and choice.pk == r.user_choice_obj.pk %}
+                    <span class="badge bg-light text-dark ms-2">Bạn chọn</span>
+                  {% endif %}
+                </li>
+              {% endfor %}
+            </ul>
+
+            <button class="btn btn-link p-0" type="button" data-bs-toggle="collapse" data-bs-target="#explain{{ forloop.counter }}" aria-expanded="false" aria-controls="explain{{ forloop.counter }}">
+              <span style="font-size:15px;">Xem giải thích chi tiết</span>
+            </button>
+            <div class="collapse mt-2" id="explain{{ forloop.counter }}">
+              <div class="card card-body bg-light">
+                <div class="mb-2"><strong>Toàn bộ đáp án:</strong></div>
+                <ul>
+                  {% for choice in r.question.choices.all %}
+                    <li style="display:flex;align-items:center;gap:8px;">
+                      {% if choice.is_correct %}
+                        <span style="color:green;font-size:18px;">&#10003;</span>
+                      {% elif r.user_choice_obj and choice.pk == r.user_choice_obj.pk %}
+                        <span style="color:red;font-size:18px;">&#10007;</span>
+                      {% endif %}
+                      <span>{{ choice.text }}</span>
+                    </li>
+                  {% endfor %}
+                </ul>
+                <div class="mt-2"><strong>Giải thích:</strong><br>{{ r.question.explanation|linebreaksbr|default:'(Chưa có giải thích)' }}</div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
