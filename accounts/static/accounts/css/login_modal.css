@@ -1,0 +1,47 @@
+.jk-modal {
+  position: fixed; z-index: 9999; inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex; align-items: center; justify-content: center;
+}
+.jk-modal-content {
+  background: #fff; border-radius: 24px;
+  width: 80vw; max-width: 900px; min-height: 60vh;
+  display: flex; flex-direction: column; position: relative;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+}
+.jk-modal-close {
+  position: absolute; top: 18px; right: 32px;
+  font-size: 2rem; color: #333; cursor: pointer; background: transparent; border: 0;
+}
+.jk-modal-body { display: flex; height: 100%; }
+.jk-modal-left { flex: 1.2; padding: 48px 32px 32px 48px; display: flex; flex-direction: column; justify-content: center; }
+.jk-modal-right { flex: 1; background: #e6f5e9; border-radius: 0 24px 24px 0; display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; }
+.jk-modal-img { width: 90%; border-radius: 16px; margin-bottom: 16px; }
+.jk-modal-brand { text-align: center; }
+.jk-modal-brand-title { font-size: 2.5rem; font-weight: 700; color: #1a7f37; letter-spacing: 2px; }
+.jk-modal-brand-desc { font-size: 1.1rem; color: #1a7f37; margin-top: 8px; }
+
+.jk-btn { border: none; border-radius: 24px; padding: 12px 0; width: 100%; font-size: 1.1rem; margin-top: 18px; cursor: pointer; }
+.jk-btn-green { background: #4cd964; color: #fff; font-weight: 700; }
+
+.jk-modal-or { text-align: center; margin: 18px 0 8px 0; color: #888; display:flex; align-items:center; justify-content: center; gap: 8px; }
+.jk-divider { display:inline-block; width:20%; border-top:1px solid #e0e0e0; vertical-align:middle; }
+.jk-or-text { color:#3a3a3a; font-weight: 500; }
+
+.jk-modal-social { display:flex; gap:18px; justify-content:center; margin-top:12px; flex-wrap: wrap; }
+.jk-social-btn {
+  display:flex; align-items:center; gap:8px;
+  background:#f6fbfd; border-radius:12px; padding:10px 28px 10px 18px;
+  text-decoration:none; box-shadow:none; border:none; min-width:140px;
+}
+.jk-social-btn--fb .jk-social-text { color:#1877F3; font-weight:500; font-size:1.1rem; }
+.jk-social-btn--gg .jk-social-text { color:#444; font-weight:500; font-size:1.1rem; }
+
+.jk-modal-links, .jk-modal-register { margin-top: 12px; text-align: left; }
+.jk-link { color: #1a7f37; text-decoration: underline; cursor: pointer; }
+
+@media (max-width: 900px) {
+  .jk-modal-content { flex-direction: column; width: 98vw; }
+  .jk-modal-body { flex-direction: column; }
+  .jk-modal-left, .jk-modal-right { padding: 24px; }
+}

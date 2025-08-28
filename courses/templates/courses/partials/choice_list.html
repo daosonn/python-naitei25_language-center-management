@@ -1,0 +1,23 @@
+{% load quiz_tags i18n %}
+<ul class="mt-2 mb-2">
+  {% with selected_id=answer.choice_id %}
+  {% for ch in answer.question.choices.all %}
+    <li class="qi-choice-line">
+      {# Hiện icon chỉ ở lựa chọn đã chọn #}
+      {% if selected_id %}
+        {% if ch.id == selected_id %}
+          {% if answer.choice.is_correct %}
+            {% state_icon "correct" "lg" %}
+          {% else %}
+            {% state_icon "wrong" "lg" %}
+          {% endif %}
+        {% endif %}
+      {% endif %}
+      <span>{{ ch.text }}</span>
+      {% if selected_id and ch.id == selected_id %}
+        <span class="badge bg-light text-dark ms-2">{% trans "Bạn chọn" %}</span>
+      {% endif %}
+    </li>
+  {% endfor %}
+  {% endwith %}
+</ul>

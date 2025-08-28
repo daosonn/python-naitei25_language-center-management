@@ -1,0 +1,9 @@
+.qi-icon { line-height: 1; display: inline-block; vertical-align: middle; }
+.qi-lg   { font-size: 18px; }
+.qi-2xl  { font-size: 2rem; vertical-align: middle; }
+
+.qi-correct::before { content: "\2713"; color: green; }   /* ✓ */
+.qi-wrong::before   { content: "\2717"; color: red; }     /* ✗ */
+.qi-skip::before    { content: "\25CB"; color: #888; }    /* ○ */
+
+.qi-choice-line { display: flex; align-items: center; gap: 8px; }

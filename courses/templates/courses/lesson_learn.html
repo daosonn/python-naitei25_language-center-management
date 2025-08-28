@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 {% load youtube %}
 {% load i18n %}
+{% load quiz_extras %}
 
 {% block content %}
 <div class="row g-3">
@@ -69,11 +70,9 @@
                          href="{{ q_url }}">
                         <span><i class="bi bi-question-circle me-2"></i> {% trans "Bài tập kiểm tra" %}</span>
                         <span>
-                          {% with lid=l.id %}
-                            {% if quiz_passed and quiz_passed.lid %}
-                              <i class="bi bi-check-circle-fill text-success" title="Đã qua bài kiểm tra"></i>
-                            {% endif %}
-                          {% endwith %}
+                          {% if quiz_passed and quiz_passed|get_item:l.id %}
+                            <i class="bi bi-check-circle-fill text-success" title="Đã qua bài kiểm tra"></i>
+                          {% endif %}
                         </span>
                       </a>
                     </li>

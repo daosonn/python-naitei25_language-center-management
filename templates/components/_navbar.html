@@ -68,9 +68,11 @@
             </ul>
           </li>
         {% else %}
-          {% url 'accounts:login' as login_url %}
+          <li class="nav-item me-2">
+            <button class="btn btn-success btn-sm text-white" style="font-weight:500;box-shadow:none;" type="button" onclick="openRegisterModal()">Đăng ký</button>
+          </li>
           <li class="nav-item">
-            <a class="btn btn-light btn-sm" href="{% firstof login_url '#' %}">Đăng nhập</a>
+            <button class="btn btn-light btn-sm" type="button" onclick="openLoginModal()">Đăng nhập</button>
           </li>
         {% endif %}
       </ul>

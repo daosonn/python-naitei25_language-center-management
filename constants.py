@@ -167,3 +167,34 @@ COURSE_NEED_APPROVAL_MSG = "Bạn cần được duyệt để bắt đầu họ
 MY_COURSES_PAGE_SIZE = 12
 # ==== User Progress / Donut chart ====
 PROGRESS_DONUT_CIRCUMFERENCE = 377   # chu vi vòng tròn (px)
+
+# User / Role
+ROLE_ADMIN = "ADMIN"
+ROLE_WEBSITE_ADMIN = "WEBSITE_ADMIN"
+ROLE_USER = "USER"
+ROLE_CHOICES = (
+    (ROLE_ADMIN, "Admin"),
+    (ROLE_WEBSITE_ADMIN, "Website Admin"),
+    (ROLE_USER, "User"),
+)
+
+# UserProfile field lengths
+FULL_NAME_MAX_LENGTH = 128
+PHONE_NUMBER_MAX_LENGTH = 20
+JAPANESE_LEVEL_MAX_LENGTH = 64
+ADDRESS_MAX_LENGTH = 256
+COUNTRY_MAX_LENGTH = 64
+
+JAPANESE_LEVEL_CHOICES = [
+    ("N5", "N5"),
+    ("N4", "N4"),
+    ("N3", "N3"),
+    ("N2", "N2"),
+    ("N1", "N1"),
+]
+
+COUNTRY_CHOICES = [
+    ("Việt Nam", _("Việt Nam")),
+    ("Nhật Bản", _("Nhật Bản")),
+    ("Khác", _("Khác")),
+]

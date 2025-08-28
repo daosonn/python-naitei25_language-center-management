@@ -1,0 +1,8 @@
+{% load i18n %}
+{% if state == "skip" %}
+  <span class="badge bg-secondary">{% trans "Bỏ qua" %}</span>
+{% elif state == "correct" %}
+  <span class="badge bg-success">{% trans "Đúng" %}</span>
+{% else %}
+  <span class="badge bg-danger">{% trans "Sai" %}</span>
+{% endif %}

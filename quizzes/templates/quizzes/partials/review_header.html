@@ -1,0 +1,7 @@
+{% load i18n quiz_review_tags %}
+<button class="accordion-button collapsed"
+        data-bs-toggle="collapse"
+        data-bs-target="#rv{{ idx }}">
+  {% state_icon state "lg" %}
+  <span class="ms-2">{% trans "Câu" %} {{ idx }}: {{ r.question.text }}</span>
+</button>

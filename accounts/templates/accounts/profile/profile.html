@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'accounts/css/profile.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col-md-3">
+    <div class="card mb-3">
+      <div class="card-body text-center">
+        {% if profile.avatar %}
+          <img src="{{ profile.avatar.url }}" alt="{% trans 'Ảnh đại diện' %}" class="rounded mb-2 profile-avatar">
+        {% else %}
+          <img src="{% static 'img/logo.png' %}" alt="{% trans 'Ảnh đại diện mặc định' %}" class="rounded mb-2 profile-avatar">
+        {% endif %}
+
+        <form method="post" action="{% url 'accounts:profile' %}" enctype="multipart/form-data" id="avatar-form">
+          {% csrf_token %}
+          <input type="file" name="avatar" accept="image/*" class="form-control mb-2" onchange="this.form.submit()">
+          <button type="submit" class="btn btn-outline-secondary btn-sm">{% trans 'Thay ảnh đại diện' %}</button>
+        </form>
+      </div>
+    </div>
+
+    <nav class="profile-sidebar mb-3">
+      <a href="#" class="sidebar-link active">{% trans 'Thông tin cá nhân' %}</a>
+      <a href="#" class="sidebar-link">{% trans 'Thông báo' %}</a>
+      <a href="{% url 'courses:my' %}" class="sidebar-link">{% trans 'Khóa học của tôi' %}</a>
+      {# Đảm bảo URL name đúng với dự án #}
+      <a href="{% url 'user_progress:progress' %}" class="sidebar-link">{% trans 'Tiến độ học tập' %}</a>
+    </nav>
+  </div>
+
+  <div class="col-md-9">
+    <form method="post" action="{% url 'accounts:profile' %}" id="profile-form" enctype="multipart/form-data">
+      {% csrf_token %}
+      <table class="table">
+        <tr>
+          <th>{% trans 'Họ và Tên' %}</th>
+          <td>
+            <input type="text" name="display_name" class="form-control"
+                   value="{{ profile.display_name|default:user.username }}" required>
+          </td>
+        </tr>
+        <tr>
+          <th>{% trans 'Email' %}</th>
+          <td>
+            <input type="email" class="form-control" value="{{ user.email }}" disabled>
+          </td>
+        </tr>
+        <tr>
+          <th>{% trans 'Mật khẩu' %}</th>
+          <td>
+            ****** <a href="{% url 'accounts:change_password' %}">
+              <i class="bi bi-lock"></i> {% trans 'Đổi mật khẩu' %}
+            </a>
+          </td>
+        </tr>
+        <tr>
+          <th>{% trans 'Ngày sinh' %}</th>
+          <td>
+            <input type="date" name="birthday" class="form-control" value="{{ profile.birthday|date:'Y-m-d' }}">
+          </td>
+        </tr>
+        <tr>
+          <th>{% trans 'Số điện thoại' %}</th>
+          <td>
+            <input type="text" name="phone" class="form-control" value="{{ profile.phone }}">
+          </td>
+        </tr>
+        <tr>
+          <th>{% trans 'Trình độ tiếng Nhật' %}</th>
+          <td>
+            <select name="japanese_level" class="form-control">
+              <option value="">{% trans 'Chọn trình độ' %}</option>
+              {# Truyền từ constants qua view: JAPANESE_LEVEL_CHOICES #}
+              {% for code, label in JAPANESE_LEVEL_CHOICES %}
+                <option value="{{ code }}" {% if profile.japanese_level == code %}selected{% endif %}>
+                  {{ label }}
+                </option>
+              {% endfor %}
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <th>{% trans 'Địa chỉ' %}</th>
+          <td>
+            <textarea name="address" class="form-control" rows="2"
+                      placeholder="{% trans 'Ví dụ: Số 05, Khu đô thị Mộ Lao, Quận Hà Đông, Hà Nội' %}">{{ profile.address }}</textarea>
+          </td>
+        </tr>
+        <tr>
+          <th>{% trans 'Quốc gia' %}</th>
+          <td>
+            <select name="country" class="form-control">
+              <option value="">{% trans 'Chọn quốc gia' %}</option>
+              {# Truyền từ constants qua view: COUNTRY_CHOICES #}
+              {% for code, label in COUNTRY_CHOICES %}
+                <option value="{{ code }}" {% if profile.country == code %}selected{% endif %}>
+                  {{ label }}
+                </option>
+              {% endfor %}
+            </select>
+          </td>
+        </tr>
+      </table>
+      <button type="submit" class="btn btn-success">{% trans 'Lưu thay đổi' %}</button>
+    </form>
+  </div>
+</div>
+
+{# JS i18n an toàn cho prompt #}
+{% translate "Nhập giá trị mới cho" as tPrompt %}
+<script>
+  const tPrompt = "{{ tPrompt|escapejs }}";
+  const csrftoken = "{{ csrf_token }}";  // dùng middleware CSRF của Django
+
+  document.querySelectorAll('.edit-link').forEach(function(link) {
+    link.addEventListener('click', function (e) {
+      e.preventDefault();
+      const field = this.getAttribute('data-field');
+      const value = prompt(tPrompt + ' ' + field);
+      if (value) {
+        fetch('/accounts/edit/' + field + '/', {
+          method: 'POST',
+          headers: {
+            'X-CSRFToken': csrftoken,
+            'Content-Type': 'application/x-www-form-urlencoded'
+          },
+          body: 'value=' + encodeURIComponent(value)
+        })
+        .then(r => r.json())
+        .then(data => { if (data.success) location.reload(); });
+      }
+    });
+  });
+</script>
+{% endblock %}

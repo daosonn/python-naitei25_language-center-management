@@ -1,0 +1,15 @@
+{% load i18n quiz_review_tags %}
+<ul>
+  {% with selected=r.user_choice_obj %}
+  {% for choice in r.question.choices.all %}
+    <li class="qi-choice-line">
+      {% if choice.is_correct %}
+        {% state_icon "correct" "lg" %}
+      {% elif selected and choice.pk == selected.pk %}
+        {% state_icon "wrong" "lg" %}
+      {% endif %}
+      <span>{{ choice.text }}</span>
+    </li>
+  {% endfor %}
+  {% endwith %}
+</ul>

@@ -1,0 +1,76 @@
+{% load static i18n %}
+
+{# Nếu base.html có các block này, CSS/JS sẽ được chèn đúng chỗ #}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'accounts/css/login_modal.css' %}">
+{% endblock %}
+
+<!-- Modal Login -->
+<div id="loginModal" class="jk-modal" aria-hidden="true" style="display:none;">
+  <div class="jk-modal-content" role="dialog" aria-modal="true" aria-labelledby="loginModalTitle">
+    <button type="button" class="jk-modal-close" aria-label="{% trans 'Đóng' %}" onclick="closeLoginModal()">&times;</button>
+
+    <div class="jk-modal-body">
+      <div class="jk-modal-left">
+        <h2 id="loginModalTitle">{% trans "HỌC BÀI MỚI CÙNG JKOKORO!" %}</h2>
+        <p>
+          {% blocktrans %}Tiếng Nhật khó, đã có Jkokoro!{% endblocktrans %}<br>
+          {% trans "Hệ sinh thái Nhật ngữ số 1 dành cho người Việt!" %}
+        </p>
+
+        <form id="loginForm" method="post" action="{% url 'accounts:login' %}">
+          {% csrf_token %}
+          <input type="hidden" name="next" value="{{ request.path }}">
+          <div class="form-group">
+            <label for="email">{% trans "Email" %}</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+          </div>
+          <div class="form-group">
+            <label for="password">{% trans "Mật khẩu" %}</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+          </div>
+          <button type="submit" class="jk-btn jk-btn-green">{% trans "Đăng nhập" %}</button>
+        </form>
+
+        <div class="jk-modal-links">
+          <a href="#" class="jk-link">{% trans "Quên mật khẩu?" %}</a>
+        </div>
+
+        <div class="jk-modal-or">
+          <span class="jk-divider"></span>
+          <span class="jk-or-text">{% trans "Hoặc đăng nhập với" %}</span>
+          <span class="jk-divider"></span>
+        </div>
+
+        <div class="jk-modal-social">
+          <a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}" class="jk-social-btn jk-social-btn--fb">
+            <svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="16" fill="#1877F3"/><path d="M21.333 16.001h-3.2v8h-3.2v-8h-1.6v-2.667h1.6v-1.6c0-2.133 1.067-3.2 3.2-3.2h2.133v2.667h-1.067c-.533 0-.8.267-.8.8v1.333h2.133l-.267 2.667z" fill="#fff"/></svg>
+            <span class="jk-social-text">{% trans "Facebook" %}</span>
+          </a>
+
+          <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}" class="jk-social-btn jk-social-btn--gg">
+            <svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true"><g><circle fill="#fff" cx="16" cy="16" r="16"/><path d="M25.6 16.204c0-.64-.057-1.28-.172-1.904H16v3.6h5.36c-.232 1.232-.936 2.28-1.992 2.984v2.48h3.224c1.888-1.736 2.976-4.296 2.976-7.16z" fill="#4285F4"/><path d="M16 26c2.7 0 4.968-.892 6.624-2.424l-3.224-2.48c-.896.6-2.04.952-3.4.952-2.616 0-4.832-1.768-5.624-4.144h-3.32v2.6C8.992 23.888 12.232 26 16 26z" fill="#34A853"/><path d="M10.376 17.904A5.997 5.997 0 0 1 10 16c0-.656.112-1.296.312-1.904v-2.6h-3.32A9.997 9.997 0 0 0 6 16c0 1.624.392 3.16 1.064 4.504l3.312-2.6z" fill="#FBBC05"/><path d="M16 10.376c1.472 0 2.784.504 3.824 1.488l2.872-2.872C20.968 7.892 18.7 7 16 7c-3.768 0-7.008 2.112-8.688 5.496l3.312 2.6c.792-2.376 3.008-4.144 5.376-4.144z" fill="#EA4335"/></g></svg>
+            <span class="jk-social-text">{% trans "Google" %}</span>
+          </a>
+        </div>
+
+        <div class="jk-modal-register">
+          {% trans "Bạn chưa có tài khoản?" %} <a href="#" class="jk-link" onclick="switchToRegisterModal();return false;">{% trans "Đăng ký ngay" %}</a>
+        </div>
+      </div>
+
+      <div class="jk-modal-right">
+        <img src="{% static 'img/login.jpg' %}" alt="{% trans 'Jkokoro login' %}" class="jk-modal-img">
+        <div class="jk-modal-brand">
+          <div class="jk-modal-brand-title">JKOKORO</div>
+          <div class="jk-modal-brand-desc">{% trans "Hệ sinh thái Nhật Ngữ số 1 dành cho người Việt" %}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{# JS external #}
+{% block extra_js %}
+<script src="{% static 'accounts/js/login_modal.js' %}"></script>
+{% endblock %}

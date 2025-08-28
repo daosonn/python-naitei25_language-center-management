@@ -22,7 +22,7 @@ urlpatterns = [
     path('progress/', include('user_progress.urls', namespace='user_progress')), # URL cho ứng dụng user_progress
     path('notifications/', include('notifications.urls')), # URL cho ứng dụng notifications (nếu có views)
     path("", HomeView.as_view(), name='home'),
-    path('oauth/', include('social_django.urls', namespace='social'))
+    path('oauth/', include('social_django.urls', namespace='social')),
 ]
                                                                                                                                                                                                                                                                                                                                                                                                                                                     
 # Cấu hình phục vụ tệp media và static trong môi trường phát triển

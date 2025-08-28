@@ -1,5 +1,14 @@
 {% extends "base.html" %}
-{% block title %}Kết quả — {{ quiz.title }}{% endblock %}
+{% load i18n static quiz_review_tags %}
+
+{% block title %}
+  {% blocktrans with title=quiz.title %}Kết quả — {{ title }}{% endblocktrans %}
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'courses/css/quiz.css' %}">
+{% endblock %}
+
 {% block content %}
 <div class="text-center mb-4">
   {% if passed %}
@@ -7,7 +16,10 @@
   {% else %}
     <div class="alert alert-warning">{{ C.QUIZ.FAIL_BADGE_TEXT }}</div>
   {% endif %}
-  <p class="lead">Điểm: <strong>{{ score }}%</strong> • Yêu cầu qua: {{ quiz.pass_rate }}%</p>
+  <p class="lead">
+    {% trans "Điểm" %}: <strong>{{ score }}%</strong> •
+    {% trans "Yêu cầu qua" %}: {{ quiz.pass_rate }}%
+  </p>
 </div>
 
 {% if C.QUIZ.SHOW_REVIEW_AFTER_SUBMIT %}
@@ -15,17 +27,37 @@
     {% for r in review %}
       <div class="accordion-item">
         <h2 class="accordion-header">
-          <button class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#rv{{ forloop.counter }}">
-            Câu {{ forloop.counter }}: {{ r.question }}
-          </button>
+          {% review_header r forloop.counter %}
         </h2>
         <div id="rv{{ forloop.counter }}" class="accordion-collapse collapse" data-bs-parent="#reviewAcc">
           <div class="accordion-body">
-            <p class="mb-1"><span class="badge {% if r.is_correct %}bg-success{% else %}bg-danger{% endif %}">
-              {% if r.is_correct %}Đúng{% else %}Sai{% endif %}
-            </span></p>
-            <p class="mb-1"><strong>Đáp án của bạn:</strong> {{ r.user_choice }}</p>
-            <p class="mb-0"><strong>Đáp án đúng:</strong> {{ r.correct_choice }}</p>
+            {% review_badge r %}
+            {% review_choice_list r %}
+
+            <button
+              class="btn btn-link p-0"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#explain{{ forloop.counter }}"
+              aria-expanded="false"
+              aria-controls="explain{{ forloop.counter }}"
+            >
+              <span class="fs-6">{% trans "Xem giải thích chi tiết" %}</span>
+            </button>
+
+            <div class="collapse mt-2" id="explain{{ forloop.counter }}">
+              <div class="card card-body bg-light">
+                <div class="mb-2"><strong>{% trans "Toàn bộ đáp án" %}:</strong></div>
+                {% review_all_choices r %}
+
+                <div class="mt-2">
+                  <strong>{% trans "Giải thích" %}:</strong><br>
+                  {% translate "(Chưa có giải thích)" as no_explain %}
+                  {{ r.question.explanation|linebreaksbr|default:no_explain }}
+                </div>
+              </div>
+            </div>
+
           </div>
         </div>
       </div>
@@ -34,6 +66,6 @@
 {% endif %}
 
 <div class="mt-4 text-center">
-  <a class="btn btn-outline-teal" href="{% url 'courses:lesson' quiz.lesson.course.slug quiz.lesson.id %}">Quay lại bài học</a>
+  {% back_to_lesson quiz %}
 </div>
 {% endblock %}

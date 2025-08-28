@@ -1,0 +1,20 @@
+{% load i18n quiz_review_tags %}
+<ul class="mt-2 mb-2">
+  {% with selected=r.user_choice_obj %}
+  {% for choice in r.question.choices.all %}
+    <li class="qi-choice-line">
+      {% if selected and choice.pk == selected.pk %}
+        {% if r.is_correct %}
+          {% state_icon "correct" "lg" %}
+        {% elif r.is_wrong %}
+          {% state_icon "wrong" "lg" %}
+        {% endif %}
+      {% endif %}
+      <span>{{ choice.text }}</span>
+      {% if selected and choice.pk == selected.pk %}
+        <span class="badge bg-light text-dark ms-2">{% trans "Bạn chọn" %}</span>
+      {% endif %}
+    </li>
+  {% endfor %}
+  {% endwith %}
+</ul>

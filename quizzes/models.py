@@ -48,10 +48,17 @@ class Question(models.Model):
         verbose_name=_("Quiz")
     )
     text = models.TextField(_("Question Text"))
+
     order = models.PositiveIntegerField(
         _("Order"),
         default=0,
         help_text=_("Thứ tự hiển thị câu hỏi trong quiz")
+    )
+    explanation = models.TextField(
+        _("Giải thích chi tiết"),
+        blank=True,
+        null=True,
+        help_text=_("Giải thích chi tiết cho câu hỏi, hiển thị khi người dùng bấm 'xem giải thích chi tiết'.")
     )
 
     class Meta:
