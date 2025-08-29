@@ -189,8 +189,6 @@ class ProfileUpdateForm(forms.ModelForm):
             'gender',
             'birthday',
             'avatar',
-            'description',
-            'interest',
             'is_locked',
         ]
         widgets = {

@@ -587,7 +587,12 @@ class CourseReviewSubmitView(LoginRequiredMixin, FormView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse("courses:review_list", kwargs={"course_id": self.kwargs["course_id"]})
+        course = Course.objects.get(pk=self.kwargs["course_id"])
+        if course.slug:
+            url = reverse("courses:detail", kwargs={"slug": course.slug})
+        else:
+            url = reverse("courses:detail_by_id", kwargs={"pk": course.pk})
+        return url + "#tabReviews"
 
     def post(self, request, *args, **kwargs):
         self.object = None

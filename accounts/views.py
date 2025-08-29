@@ -1,3 +1,4 @@
+from django.utils.translation import gettext as _
 from django.contrib import messages
 from django.contrib.auth import (
     authenticate, login, logout, update_session_auth_hash, get_user_model
@@ -5,7 +6,7 @@ from django.contrib.auth import (
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import PasswordChangeForm
 from django.shortcuts import render, redirect
-from django.utils.translation import gettext_lazy as _
+
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.http import require_POST
 from django.utils.dateparse import parse_date
@@ -41,13 +42,12 @@ def register_view(request):
         return redirect("/")
 
     # Tạo user (username = email để đồng nhất với authenticate)
-    user = User.objects.create_user(username=email, email=email, password=password1)
-    if hasattr(user, "first_name"):
-        user.first_name = full_name
-        user.save(update_fields=["first_name"])
 
-    # Đảm bảo có hồ sơ
-    UserProfile.objects.get_or_create(user=user)
+    user = User.objects.create_user(username=email, email=email, password=password1)
+    # Đảm bảo có hồ sơ và lưu full_name
+    profile, created_profile = UserProfile.objects.get_or_create(user=user)
+    profile.full_name = full_name
+    profile.save(update_fields=["full_name"])
 
     messages.success(request, _("Đăng ký thành công! Bạn có thể đăng nhập."))
     return redirect("/")
@@ -80,35 +80,31 @@ def login_view(request):
 
 @login_required
 def profile_view(request):
-    """
-    Trang hồ sơ: cập nhật avatar + thông tin cơ bản.
-    """
     user = request.user
-    profile, _ = UserProfile.objects.get_or_create(user=user)
+    profile, created_profile = UserProfile.objects.get_or_create(user=user)  # ← đừng dùng `_` ở đây
 
     if request.method == "POST":
-        # Upload avatar nhanh
         if "avatar" in request.FILES:
             profile.avatar = request.FILES["avatar"]
             profile.save(update_fields=["avatar"])
             messages.success(request, _("Cập nhật ảnh đại diện thành công!"))
             return redirect("accounts:profile")
 
-        # Cập nhật thông tin khác
-        display_name = (request.POST.get("display_name") or "").strip()
-        birthday_raw = (request.POST.get("birthday") or "").strip()
-        phone = (request.POST.get("phone") or "").strip()
+        display_name   = (request.POST.get("display_name")   or "").strip()
+        birthday_raw   = (request.POST.get("birthday")       or "").strip()
+        phone          = (request.POST.get("phone")          or "").strip()
         japanese_level = (request.POST.get("japanese_level") or "").strip()
-        address = (request.POST.get("address") or "").strip()
-        country = (request.POST.get("country") or "").strip()
+        address        = (request.POST.get("address")        or "").strip()
+        country        = (request.POST.get("country")        or "").strip()
 
-        profile.display_name = display_name or profile.display_name
-        profile.phone = phone
+        profile.display_name   = display_name or profile.display_name
+        profile.phone          = phone
         profile.japanese_level = japanese_level
-        profile.address = address
-        profile.country = country
+        profile.address        = address
+        profile.country        = country
 
         if birthday_raw:
+            from django.utils.dateparse import parse_date
             dt = parse_date(birthday_raw)
             if dt:
                 profile.birthday = dt
@@ -117,15 +113,13 @@ def profile_view(request):
         messages.success(request, _("Cập nhật thông tin thành công!"))
         return redirect("accounts:profile")
 
-    context = {
+    return render(request, "accounts/profile/profile.html", {
         "user": user,
         "profile": profile,
         "JAPANESE_LEVEL_CHOICES": JAPANESE_LEVEL_CHOICES,
         "COUNTRY_CHOICES": COUNTRY_CHOICES,
-        "completed_courses": [],  # TODO: tích hợp sau
-    }
-    return render(request, "accounts/profile/profile.html", context)
-
+        "completed_courses": [],
+    })
 
 @login_required
 def change_password_view(request):

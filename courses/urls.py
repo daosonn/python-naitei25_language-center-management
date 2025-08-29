@@ -8,6 +8,7 @@ urlpatterns = [
     # ===== Course list / my courses =====
     path("", views.CourseListView.as_view(), name="list"),
     path("mine/", views.MyCoursesView.as_view(), name="my"),
+    path("my-courses/", views.MyCoursesView.as_view(), name="my_courses"),  # alias cho test compatibility
     
     # ===== Lessons CRUD (authoring) by course_id =====
     path("<int:course_id>/lessons/",      views.LessonListView.as_view(),   name="lesson_list"),

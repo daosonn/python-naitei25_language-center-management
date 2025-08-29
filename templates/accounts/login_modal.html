@@ -12,6 +12,9 @@
 
     <div class="jk-modal-body">
       <div class="jk-modal-left">
+        {% if login_error %}
+          <div class="alert alert-danger" role="alert">{{ login_error }}</div>
+        {% endif %}
         <h2 id="loginModalTitle">{% trans "HỌC BÀI MỚI CÙNG JKOKORO!" %}</h2>
         <p>
           {% blocktrans %}Tiếng Nhật khó, đã có Jkokoro!{% endblocktrans %}<br>
